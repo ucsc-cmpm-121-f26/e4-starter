@@ -7,12 +7,7 @@ import {
   Player,
   WIDTH,
 } from "./actors.ts";
-import {
-  PREFAB_KINDS,
-  ShmupBoss,
-  ShmupPowerUp,
-  ShmupPrefabSprite,
-} from "./prefab.ts";
+import { ShmupBoss, ShmupPowerUp, ShmupPrefabSprite } from "./prefab.ts";
 import type { Hud } from "./hud.ts";
 import type { LaunchOptions } from "./main.ts";
 import { AutoPilot, KeyboardPilot, type Pilot } from "./pilots.ts";
@@ -322,13 +317,20 @@ export class GameScene extends Phaser.Scene implements Arena {
     );
   }
 
-  summon(kind: string, x: number, y: number): void {
+  summon(_kind: string, x: number, y: number): void {
     this.enemies.push(
       new ShmupPrefabSprite(
         this,
         x,
         y,
-        PREFAB_KINDS[kind],
+        "drone",
+        2,
+        100,
+        13,
+        0.015,
+        true,
+        false,
+        x,
         x < WIDTH / 2 ? 1 : -1,
       ),
     );
@@ -421,9 +423,75 @@ export class GameScene extends Phaser.Scene implements Arena {
   private spawnDue(): void {
     while (this.pending.length > 0 && this.pending[0].tick <= this.now) {
       const { kind, x, y, side } = this.pending.shift()!;
-      this.enemies.push(
-        new ShmupPrefabSprite(this, x, y, PREFAB_KINDS[kind], side),
-      );
+      if (kind === "drone") {
+        this.enemies.push(
+          new ShmupPrefabSprite(
+            this,
+            x,
+            y,
+            "drone",
+            2,
+            100,
+            13,
+            0.015,
+            true,
+            false,
+            x,
+            side,
+          ),
+        );
+      } else if (kind === "dart") {
+        this.enemies.push(
+          new ShmupPrefabSprite(
+            this,
+            x,
+            y,
+            "dart",
+            1,
+            150,
+            12,
+            0.015,
+            false,
+            false,
+            x,
+            side,
+          ),
+        );
+      } else if (kind === "turret") {
+        this.enemies.push(
+          new ShmupPrefabSprite(
+            this,
+            x,
+            y,
+            "turret",
+            12,
+            400,
+            19,
+            0.3,
+            true,
+            false,
+            x,
+            side,
+          ),
+        );
+      } else if (kind === "lancer") {
+        this.enemies.push(
+          new ShmupPrefabSprite(
+            this,
+            x,
+            y,
+            "lancer",
+            4,
+            250,
+            15,
+            0.06,
+            true,
+            false,
+            x,
+            side,
+          ),
+        );
+      }
     }
   }
 
