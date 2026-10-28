@@ -345,9 +345,15 @@ export class PlayScene extends Phaser.Scene implements Arena {
     this.victoryAt = this.now + VICTORY_TICKS;
     this.hud.setBoss(0);
     this.hud.announce("WARDEN DOWN", "The lanes are open");
+    // The Warden's fall takes its bullets and escorts with it (no score).
     for (const bullet of this.bullets) {
       this.burst(bullet.x, bullet.y, 2, TINTS.spark);
       bullet.setActive(false);
+    }
+    for (const escort of this.enemies) {
+      if (escort === boss || !escort.active) continue;
+      this.explode(escort.x, escort.y, 1);
+      escort.setActive(false);
     }
     console.info(
       `[self-play] seed=${this.options.seed} ticks=${this.now} score=${this.run.score}` +
