@@ -1,29 +1,5 @@
 /* Neon Warden: the HUD panels tilt toward the screen like an arcade cabinet. */
 
-:root {
-  --ink: #e8fdff;
-  --dim: #6f86a8;
-  --cyan: #5ef2ff;
-  --magenta: #ff5ea8;
-  --gold: #ffe066;
-  --danger: #ff4d6d;
-  --void: #04020c;
-  --panel-bg: rgba(14, 10, 34, 0.86);
-  --panel-edge: rgba(94, 242, 255, 0.35);
-
-  --screen-w: 480px;
-  --screen-h: 640px;
-  --panel-w: 190px;
-  --tilt: 24deg;
-  --overlap: 18px;
-  --gap: 14px;
-  --radius: 10px;
-
-  --glow: 0 0 6px currentColor, 0 0 18px currentColor;
-  --mono: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
-  --display: Orbitron, "Trebuchet MS", sans-serif;
-}
-
 * {
   box-sizing: border-box;
 }
@@ -33,15 +9,15 @@ body {
   min-height: 100vh;
   display: grid;
   place-content: center;
-  gap: var(--gap);
-  background: radial-gradient(ellipse at 50% 30%, #1a0f3a, var(--void) 70%);
-  color: var(--ink);
-  font-family: var(--mono);
+  gap: 14px;
+  background: radial-gradient(ellipse at 50% 30%, #1a0f3a, #04020c 70%);
+  color: #e8fdff;
+  font-family: "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
 }
 
 .cabinet {
   display: grid;
-  grid-template-columns: var(--panel-w) var(--screen-w) var(--panel-w);
+  grid-template-columns: 190px 480px 190px;
   align-items: center;
   perspective: 900px;
 }
@@ -50,11 +26,11 @@ body {
   position: relative;
   z-index: 1;
   display: grid;
-  gap: var(--gap);
-  padding: var(--gap);
-  border: 1px solid var(--panel-edge);
-  border-radius: var(--radius);
-  background: var(--panel-bg);
+  gap: 14px;
+  padding: 14px;
+  border: 1px solid rgba(94, 242, 255, 0.35);
+  border-radius: 10px;
+  background: rgba(14, 10, 34, 0.86);
   box-shadow: 0 0 24px rgba(94, 242, 255, 0.15), inset 0 0 18px rgba(94, 242,
     255, 0.08);
   transition: opacity 400ms, transform 400ms;
@@ -63,13 +39,13 @@ body {
 /* Each panel swings toward the screen and slightly overlaps its edge. */
 .panel-left {
   transform-origin: right center;
-  transform: translateX(var(--overlap)) rotateY(var(--tilt));
+  transform: translateX(18px) rotateY(24deg);
 }
 
 .panel-right {
   transform-origin: left center;
-  transform: translateX(calc(-1 * var(--overlap))) rotateY(calc(-1 *
-    var(--tilt)));
+  transform: translateX(-18px) rotateY(calc(-1 *
+    24deg));
 }
 
 .cabinet[data-mode="title"] .panel,
@@ -79,21 +55,21 @@ body {
 
 h2 {
   margin: 0 0 4px;
-  font: 600 11px/1 var(--display);
+  font: 600 11px/1 Orbitron, "Trebuchet MS", sans-serif;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--dim);
+  color: #6f86a8;
 }
 
 output {
   font-size: 22px;
-  color: var(--cyan);
-  text-shadow: var(--glow);
+  color: #5ef2ff;
+  text-shadow: 0 0 6px currentColor, 0 0 18px currentColor;
 }
 
 #best {
   font-size: 15px;
-  color: var(--gold);
+  color: #ffe066;
 }
 
 .pips,
@@ -111,17 +87,17 @@ output {
 }
 
 .pip {
-  color: var(--magenta);
+  color: #ff5ea8;
 }
 
 .cell {
-  color: var(--gold);
+  color: #ffe066;
 }
 
 .pip.lit,
 .cell.lit {
   opacity: 1;
-  box-shadow: var(--glow);
+  box-shadow: 0 0 6px currentColor, 0 0 18px currentColor;
 }
 
 .cell.lit {
@@ -132,11 +108,11 @@ output {
   display: none;
   margin: 0;
   padding: 4px 8px;
-  border: 1px solid var(--gold);
-  border-radius: var(--radius);
-  color: var(--gold);
+  border: 1px solid #ffe066;
+  border-radius: 10px;
+  color: #ffe066;
   text-align: center;
-  font: 600 11px/1.4 var(--display);
+  font: 600 11px/1.4 Orbitron, "Trebuchet MS", sans-serif;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   animation: blink 1.2s steps(2) infinite;
@@ -148,11 +124,12 @@ output {
 
 .screen {
   position: relative;
-  width: var(--screen-w);
-  height: var(--screen-h);
-  border-radius: var(--radius);
+  width: 480px;
+  height: 640px;
+  border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 0 0 2px var(--panel-edge), 0 0 40px rgba(94, 242, 255, 0.2);
+  box-shadow: 0 0 0 2px rgba(94, 242, 255, 0.35), 0 0 40px rgba(94, 242, 255,
+    0.2);
 }
 
 #game,
@@ -175,11 +152,11 @@ output {
   align-items: center;
   gap: 10px;
   font-size: 12px;
-  color: var(--dim);
+  color: #6f86a8;
 }
 
 .stop[data-state="cleared"] {
-  color: var(--cyan);
+  color: #5ef2ff;
 }
 
 .stop[data-state="cleared"] .stop-dot {
@@ -187,8 +164,8 @@ output {
 }
 
 .stop[data-state="current"] {
-  color: var(--gold);
-  text-shadow: var(--glow);
+  color: #ffe066;
+  text-shadow: 0 0 6px currentColor, 0 0 18px currentColor;
 }
 
 .stop[data-state="current"] .stop-dot {
@@ -196,11 +173,11 @@ output {
 }
 
 .stop:last-child {
-  color: var(--danger);
+  color: #ff4d6d;
 }
 
 .boss {
-  color: var(--danger);
+  color: #ff4d6d;
 }
 
 .boss h2 {
@@ -218,7 +195,7 @@ output {
   display: block;
   height: 100%;
   background: currentColor;
-  box-shadow: var(--glow);
+  box-shadow: 0 0 6px currentColor, 0 0 18px currentColor;
   transform-origin: left;
   transform: scaleX(var(--fill));
   transition: transform 120ms linear;
@@ -244,17 +221,17 @@ output {
 }
 
 .banner strong {
-  font: 700 26px/1.1 var(--display);
+  font: 700 26px/1.1 Orbitron, "Trebuchet MS", sans-serif;
   letter-spacing: 0.12em;
-  color: var(--gold);
-  text-shadow: var(--glow);
+  color: #ffe066;
+  text-shadow: 0 0 6px currentColor, 0 0 18px currentColor;
 }
 
 .banner span {
   font-size: 13px;
   letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: #e8fdff;
 }
 
 .caption {
@@ -262,7 +239,7 @@ output {
   inset: auto 8% 6%;
   margin: 0;
   padding: 10px 14px;
-  border-left: 3px solid var(--cyan);
+  border-left: 3px solid #5ef2ff;
   background: rgba(4, 2, 12, 0.75);
   font-size: 14px;
   line-height: 1.5;
@@ -280,7 +257,7 @@ output {
   margin: 0;
   text-align: center;
   font-size: 12px;
-  color: var(--dim);
+  color: #6f86a8;
 }
 
 /* Impacts shake the whole cabinet; the panels keep their tilt while shaking. */
@@ -336,7 +313,7 @@ output {
 
 @keyframes pulse {
   to {
-    box-shadow: var(--glow);
+    box-shadow: 0 0 6px currentColor, 0 0 18px currentColor;
     background: currentColor;
   }
 }
@@ -350,7 +327,7 @@ output {
 /* Narrow windows: stack the panels flat above and below the screen. */
 @media (max-width: 920px) {
   .cabinet {
-    grid-template-columns: var(--screen-w);
+    grid-template-columns: 480px;
   }
 
   .panel {
