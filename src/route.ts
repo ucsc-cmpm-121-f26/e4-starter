@@ -1,29 +1,12 @@
-import { type EnemyKindName, WIDTH } from "./actors.ts";
+import { WIDTH } from "./actors.ts";
 
 /**
  * The whole level progression as data. To retune difficulty, add a sector, or
  * move a wave, edit this table; the play scene only interprets it.
  */
-export type Formation = "line" | "vee" | "column" | "pincer";
-
-export interface Wave {
-  /** Seconds after the sector begins. */
-  at: number;
-  kind: EnemyKindName;
-  count: number;
-  formation: Formation;
-  /** Horizontal center as a fraction of the screen width. */
-  x?: number;
-}
-
-export interface Sector {
-  name: string;
-  subtitle: string;
-  seconds: number;
-  waves: Wave[];
-}
-
-export const SECTORS: Sector[] = [
+// Wave timing ("at") is in seconds after the sector begins; x is a fraction
+// of the screen width. Formations: line, vee, column, pincer.
+export const SECTORS = [
   {
     name: "Outer Drift",
     subtitle: "Scouts ahead",
@@ -98,16 +81,8 @@ export const SECTORS: Sector[] = [
 
 export const BOSS_NAME = "The Warden";
 
-/** One enemy's entry: when (ticks after the wave starts), where, and which way. */
-export interface Spawn {
-  delay: number;
-  x: number;
-  y: number;
-  side: number;
-}
-
 /** Expands a wave's formation into individual spawns. */
-export function layout(wave: Wave): Spawn[] {
+export function layout(wave) {
   const center = (wave.x ?? 0.5) * WIDTH;
   return Array.from({ length: wave.count }, (_, i) => {
     const offset = i - (wave.count - 1) / 2;

@@ -76,18 +76,6 @@ export class Bullet extends Actor {
   }
 }
 
-/** Behavior shared by every enemy of one kind, written as small functions. */
-export interface EnemyKind {
-  texture: string;
-  hp: number;
-  score: number;
-  radius: number;
-  /** Chance of dropping a power-up when destroyed. */
-  drop: number;
-  move(enemy: Enemy, arena: Arena): void;
-  fire?(enemy: Enemy, arena: Arena): void;
-}
-
 export class Enemy extends Actor {
   hp: number;
   flash = 0;
@@ -99,7 +87,7 @@ export class Enemy extends Actor {
     scene: Phaser.Scene,
     x: number,
     y: number,
-    readonly kind: EnemyKind,
+    readonly kind,
     readonly side: number,
     readonly homeX = x,
   ) {
@@ -199,11 +187,11 @@ export const ENEMY_KINDS = {
       }
     },
   },
-} satisfies Record<string, EnemyKind>;
+};
 
 export type EnemyKindName = keyof typeof ENEMY_KINDS;
 
-const BOSS_KIND: EnemyKind = {
+const BOSS_KIND = {
   texture: "boss",
   hp: 900,
   score: 10000,

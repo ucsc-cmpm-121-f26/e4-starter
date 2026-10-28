@@ -4,7 +4,6 @@ import type { Hud } from "../hud.ts";
 import { play } from "../sounds.ts";
 import { TINTS } from "../textures.ts";
 import { Backdrop, fadeTo } from "./backdrop.ts";
-import type { RunState } from "./play.ts";
 
 /** Lines of the closing story and when (seconds) each appears. */
 const STORY: [number, string][] = [
@@ -24,7 +23,7 @@ export class CutsceneScene extends Phaser.Scene {
     super("cutscene");
   }
 
-  create({ attract, run }: { attract: boolean; run: RunState }): void {
+  create({ attract, run }): void {
     this.leaving = false;
     this.backdrop = new Backdrop(this);
     this.hud.setMode("cutscene");
