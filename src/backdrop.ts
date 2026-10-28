@@ -1,5 +1,5 @@
 import Phaser from "phaser";
-import { HEIGHT, WIDTH } from "../actors.ts";
+import { HEIGHT, WIDTH } from "./actors.ts";
 
 /** Parallax space shared by every scene, plus the camera's glow treatment. */
 export class Backdrop {
@@ -36,13 +36,4 @@ export class Backdrop {
       layer.tilePositionY -= speed * this.warp * frames;
     }
   }
-}
-
-/** Fades the camera out, then starts the next scene. */
-export function fadeTo(scene: Phaser.Scene, key: string, data?: object): void {
-  const camera = scene.cameras.main;
-  camera.fadeOut(450, 4, 2, 12);
-  camera.once(Phaser.Cameras.Scene2D.Events.FADE_OUT_COMPLETE, () => {
-    scene.scene.start(key, data);
-  });
 }
